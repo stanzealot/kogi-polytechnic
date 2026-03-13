@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* ─── Font Import ──────────────────────────────────────────────
+   All font changes happen HERE. To swap the entire app font,
+   change this import and update --font-primary below.
+   ──────────────────────────────────────────────────────────── */
+@import "@fontsource/urbanist/300.css";
+@import "@fontsource/urbanist/400.css";
+@import "@fontsource/urbanist/500.css";
+@import "@fontsource/urbanist/600.css";
+@import "@fontsource/urbanist/700.css";
+@import "@fontsource/urbanist/800.css";
+
+/* ─── Typography Tokens ────────────────────────────────────────
+   Single source of truth for fonts. Change --font-primary here
+   to update the entire application at once.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  --font-primary: 'Urbanist', 'Segoe UI', sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* Font weights — named for semantic intent */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+}
+
+/* ─── Brand Color Tokens ───────────────────────────────────────
+   All colors centralized here as CSS variables.
+   Change here → updates entire app.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* Primary brand */
+  --color-primary: #20a8d8;
+  --color-primary-hover: #1a91bb;
+  --color-primary-light: #e8f7fc;
+
+  /* Portal card colors */
+  --color-portal-edu: #20a8d8;
+  --color-portal-ful: #f86c6b;
+  --color-portal-payments: #4dbd74;
+  --color-portal-apply: #272c33;
+
+  /* Typography */
+  --color-title: #171a1f;
+  --color-subtitle: #1f2329;
+  --color-muted: #6b7280;
+
+  /* Sidebar / Dashboard */
+  --color-sidebar-bg: #272c33;
+  --color-sidebar-active: #20a8d8;
+  --color-sidebar-hover: #343a40;
+  --color-sidebar-text: #ffffff;
+  --color-sidebar-text-muted: #9da5b1;
+  --color-sidebar-border: #343a40;
+
+  /* Lecturer portal specifics */
+  --color-bio-bg: #f3fafd;
+
+  /* Feedback */
+  --color-success: #4dbd74;
+  --color-danger: #f86c6b;
+  --color-warning: #f0ad4e;
+}
+
+/* ─── Base Reset ───────────────────────────────────────────────*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Apply font globally — one line controls everything */
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-weight: var(--font-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+  color: var(--color-title);
+}
+
+/* Ensure all elements inherit the app font */
+*, input, button, select, textarea {
+  font-family: inherit;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────*/
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ─── Sidebar specific scrollbar ──────────────────────────────*/
+.sidebar-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #3d4450 transparent;
+}
+.sidebar-scrollable::-webkit-scrollbar-thumb { background: #3d4450; }
