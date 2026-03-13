@@ -106,16 +106,6 @@ const AttendanceList = ({ onView }: { onView: (c: AttendanceCourse) => void }) =
 
   return (
     <div className="flex flex-col gap-5 max-w-[1100px]">
-      {/* ── Page title ── */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: COLORS.text.title }}>
-          Exam Attendance Sheet
-        </h1>
-        <p className="text-sm mt-1" style={{ color: COLORS.text.muted }}>
-          View and update student attendance for the selected exam.
-        </p>
-      </div>
-
       {/* ── Table card ── */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Card header */}

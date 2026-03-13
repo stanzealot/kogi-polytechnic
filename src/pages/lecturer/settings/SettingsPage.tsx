@@ -22,10 +22,6 @@ const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState<SettingsTab>('bio');
   return (
     <div className="flex flex-col gap-5 max-w-[1100px]">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: COLORS.text.title }}>Settings</h1>
-        <p className="text-sm mt-1" style={{ color: COLORS.text.muted }}>Manage your account settings and preferences</p>
-      </div>
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="flex flex-col md:flex-row min-h-[500px]">
           {/* Left nav */}

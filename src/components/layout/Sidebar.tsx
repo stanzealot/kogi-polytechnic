@@ -219,7 +219,7 @@ const SidebarNavItem = ({ item, onClick }: SidebarNavItemProps) => {
             size={18}
             className={cn(
               'relative z-10 flex-shrink-0 transition-colors',
-              isActive ? 'text-white' : 'text-white/50'
+              isActive ? 'text-white' : 'text-white/70'
             )}
           />
 

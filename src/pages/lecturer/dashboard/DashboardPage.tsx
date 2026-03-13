@@ -33,9 +33,9 @@ const DashboardPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1100px] mt-[32px]">
+    <div className="flex flex-col gap-6 max-w-[1100px] ">
       {/* ── Profile + Bio Row ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:items-stretch">
         <ProfileCard user={user} />
         <BioCard user={user} />
       </div>
@@ -54,11 +54,10 @@ const ProfileCard = memo(({ user }: { user: User | null }) => {
   return (
     <motion.div
       {...fadeUp(0)}
-      className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm"
+      className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm flex flex-col pt-5 items-start"
     >
-      {/* Cover / Avatar area */}
-      <div className="relative h-40 bg-gradient-to-br from-[#1a2a3a] to-[#2d4a6b]">
-        {/* Replace with actual cover image */}
+      {/* Cover image area – sized to ~390x370 and responsive */}
+      <div className="w-full max-w-[390px] h-[260px] sm:h-[320px] lg:h-[370px] bg-gradient-to-br from-[#1a2a3a] to-[#2d4a6b] overflow-hidden rounded-md ml-5">
         <img
           src="/images/julius.png"
           alt=""
@@ -69,25 +68,8 @@ const ProfileCard = memo(({ user }: { user: User | null }) => {
         />
       </div>
 
-      {/* Info below */}
-      <div className="px-5 pb-5">
-        {/* Avatar — overlaps cover */}
-        {/* <div className="relative -mt-10 mb-3 w-16 h-16 rounded-xl border-4 border-white shadow-md overflow-hidden bg-gray-200">
-          <img
-            src={user?.avatar ?? ''}
-            alt={user?.name ?? 'Lecturer'}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-[#20A8D8]/10">
-            <span className="text-[#20A8D8] font-bold text-xl">
-              {user?.name?.charAt(0) ?? 'L'}
-            </span>
-          </div>
-        </div> */}
-
+      {/* Name + title */}
+      <div className="flex-shrink-0 px-5 pb-5 pt-4">
         <h2 className="text-lg font-bold" style={{ color: COLORS.text.title }}>
           {user?.name ?? 'Julius Adebo'}
         </h2>

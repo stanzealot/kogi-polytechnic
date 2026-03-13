@@ -147,14 +147,8 @@ const AcademicCalendarPage = () => {
 
   return (
     <div className="flex flex-col gap-5 max-w-[1100px]">
-      {/* ── Page header ── */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: COLORS.text.title }}>Academic Calendar</h1>
-          <p className="text-sm mt-1" style={{ color: COLORS.text.muted }}>View important academic dates, events, and schedules.</p>
-        </div>
-
-        {/* Session picker + Export — top right */}
+      {/* ── Session picker + Export — top controls ── */}
+      <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 flex-shrink-0">
           {/* Session dropdown */}
           <div className="relative" ref={sessionRef}>

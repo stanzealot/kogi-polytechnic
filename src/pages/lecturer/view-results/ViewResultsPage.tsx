@@ -92,52 +92,6 @@ const ResultList = ({ onView }: { onView: (c: AttendanceCourse) => void }) => {
 
   return (
     <div className="flex flex-col gap-5 max-w-[1100px]">
-      {/* ── Page title + actions ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: COLORS.text.title }}>View Uploaded Result</h1>
-          <p className="text-sm mt-1" style={{ color: COLORS.text.muted }}>View uploaded results for the selected course and semester.</p>
-        </div>
-        {/* Desktop action buttons */}
-        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
-          <button
-            onClick={() => setDownloadTemplateOpen(true)}
-            className="flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap"
-            style={{ color: COLORS.primary }}
-          >
-            <Download size={15} />
-            Download result template
-          </button>
-          <motion.button
-            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-            onClick={() => setUploadResultOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-semibold whitespace-nowrap"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            <Upload size={15} />
-            Upload Result
-          </motion.button>
-        </div>
-        {/* Mobile action buttons */}
-        <div className="flex sm:hidden flex-col gap-2">
-          <motion.button
-            whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
-            onClick={() => setUploadResultOpen(true)}
-            className="flex items-center gap-2 px-4 py-3 rounded-lg text-white text-sm font-semibold"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            <Upload size={15} /> Upload Result
-          </motion.button>
-          <button
-            onClick={() => setDownloadTemplateOpen(true)}
-            className="flex items-center gap-1.5 text-sm font-semibold"
-            style={{ color: COLORS.primary }}
-          >
-            <Download size={14} /> Download result template
-          </button>
-        </div>
-      </div>
-
       {/* ── Table card ── */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Card header */}

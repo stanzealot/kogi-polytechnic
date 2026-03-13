@@ -14,7 +14,6 @@ import type { Course } from '@/types';
 
 // ─── Page ─────────────────────────────────────────────────────
 const CourseAllocationPage = () => {
-  const { setAllocateCoursesOpen, setAllocateOtherSchoolsOpen } = useUIStore();
   const [courses, setCourses] = useState<Course[]>(MOCK_ALLOCATED_COURSES);
   const [filterSemester, setFilterSemester] = useState('');
   const [filterSession, setFilterSession] = useState('');
@@ -66,36 +65,6 @@ const CourseAllocationPage = () => {
 
   return (
     <div className="flex flex-col gap-5 max-w-[1100px]">
-      {/* ── Page header with action buttons ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: COLORS.text.title }}>Course Allocation</h1>
-          <p className="text-sm mt-1" style={{ color: COLORS.text.muted }}>Manage your courses here</p>
-        </div>
-        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-          {/* Allocate from other schools — text link style */}
-          <button
-            onClick={() => setAllocateOtherSchoolsOpen(true)}
-            className="flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap"
-            style={{ color: COLORS.primary }}
-          >
-            <Plus size={15} />
-            <span className="hidden sm:inline">Allocate Courses from Other Schools</span>
-            <span className="sm:hidden">Other Schools</span>
-          </button>
-          {/* Primary allocate button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-            onClick={() => setAllocateCoursesOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-semibold whitespace-nowrap"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            <Plus size={15} />
-            Allocate Courses
-          </motion.button>
-        </div>
-      </div>
-
       {/* ── Table card ── */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Table header */}

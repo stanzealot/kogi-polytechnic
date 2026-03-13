@@ -1,22 +1,48 @@
-import { memo } from 'react';
+import { memo, type ReactNode } from 'react';
 import { Menu, Upload } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { useUIStore } from '@/store/ui.store';
 import { SIDEBAR_WIDTH } from './Sidebar';
 import { COLORS } from '@/constants/theme.constants';
+import { ROUTES } from '@/constants/routes.constants';
+
+export const HEADER_HEIGHT = 72;
 
 interface HeaderProps {
   title?: string;
   subtitle?: string;
+  actions?: ReactNode;
 }
 
-export const Header = memo(({ title = "Lecturer's Portal", subtitle = 'Manage your courses and student progress' }: HeaderProps) => {
+export const Header = memo((
+  {
+    title = "Lecturer's Portal",
+    subtitle = 'Manage your courses and student progress',
+    actions,
+  }: HeaderProps,
+) => {
   const { toggleMobileSidebar, setUploadResultOpen } = useUIStore();
+  const location = useLocation();
+  const isDashboardPage = location.pathname === ROUTES.LECTURER.DASHBOARD;
+
+  const defaultDashboardAction = isDashboardPage ? (
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.97 }}
+      onClick={() => setUploadResultOpen(true)}
+      className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-semibold transition-colors"
+      style={{ backgroundColor: COLORS.primary }}
+    >
+      <Upload size={16} />
+      <span className="hidden sm:inline">Upload Result</span>
+    </motion.button>
+  ) : null;
 
   return (
     <header
       className="fixed top-0 right-0 z-20 bg-white border-b border-gray-100 flex items-center justify-between px-5 md:px-7"
-      style={{ left: 0, height: 64 }}
+      style={{ left: 0, height: HEADER_HEIGHT }}
     >
       <div className="flex items-center gap-4">
         {/* Mobile hamburger */}
@@ -25,26 +51,17 @@ export const Header = memo(({ title = "Lecturer's Portal", subtitle = 'Manage yo
         </button>
         {/* Desktop title — offset by sidebar */}
         <div className="hidden md:block" style={{ marginLeft: SIDEBAR_WIDTH }}>
-          <h1 className="text-xl font-bold leading-tight" style={{ color: COLORS.text.title }}>{title}</h1>
-          <p className="text-xs mt-0.5" style={{ color: COLORS.text.muted }}>{subtitle}</p>
+          <h1 className="text-2xl font-bold leading-tight" style={{ color: COLORS.text.title }}>{title}</h1>
+          <p className="text-sm mt-0.5" style={{ color: COLORS.text.muted }}>{subtitle}</p>
         </div>
         {/* Mobile title */}
         <div className="md:hidden">
-          <h1 className="text-base font-bold" style={{ color: COLORS.text.title }}>{title}</h1>
+          <h1 className="text-lg font-bold" style={{ color: COLORS.text.title }}>{title}</h1>
         </div>
       </div>
 
-      {/* Upload Result — now opens drawer */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={() => setUploadResultOpen(true)}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-semibold transition-colors"
-        style={{ backgroundColor: COLORS.primary }}
-      >
-        <Upload size={16} />
-        <span className="hidden sm:inline">Upload Result</span>
-      </motion.button>
+      {/* Right-side actions: per-page actions or default dashboard button */}
+      {actions ?? defaultDashboardAction}
     </header>
   );
 });
