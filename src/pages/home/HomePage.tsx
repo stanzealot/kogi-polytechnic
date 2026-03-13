@@ -70,10 +70,10 @@ const HomePage = () => {
         initial="hidden"
         animate="visible"
         variants={leftVariants}
-        className="flex-1 flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-10 lg:py-0 lg:max-w-[55%]"
+        className="flex-1 flex flex-col px-8 sm:px-12 lg:px-16 py-8 lg:py-10 lg:max-w-[55%]"
       >
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-12 lg:mb-16">
+        {/* Logo – top left */}
+        <header className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#20A8D8] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden">
             <img
               src="/images/logo.png"
@@ -88,45 +88,51 @@ const HomePage = () => {
           <span className="text-lg font-bold tracking-wide uppercase text-[#000000]">
             {APP_NAME}
           </span>
-        </div>
+        </header>
 
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-        >
-          <h1
-            className="text-3xl sm:text-4xl font-bold mb-2"
-            style={{ color: '#171A1F' }}
+        {/* Main content – heading + cards (centered vertically in left section) */}
+        <main className="flex-1 flex flex-col justify-center mt-8 lg:mt-10">
+          {/* Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
           >
-            {APP_TAGLINE}
-          </h1>
-          <p className="text-sm mb-8" style={{ color: '#1F2329' }}>
-            {APP_SUBTITLE}
-          </p>
-        </motion.div>
+            <h1
+              className="text-3xl sm:text-4xl font-bold mb-2"
+              style={{ color: '#171A1F' }}
+            >
+              {APP_TAGLINE}
+            </h1>
+            <p
+              className="text-[14px] mb-8"
+              style={{ color: '#1F2329' }}
+            >
+              {APP_SUBTITLE}
+            </p>
+          </motion.div>
 
-        {/* Portal Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col gap-3 w-full max-w-[520px]"
-        >
-          {PORTAL_CARDS.map((card) => (
-            <PortalCard
-              key={card.id}
-              card={card}
-              onClick={() => navigate(card.route)}
-            />
-          ))}
-        </motion.div>
+          {/* Portal Cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-3 w-full max-w-[520px]"
+          >
+            {PORTAL_CARDS.map((card) => (
+              <PortalCard
+                key={card.id}
+                card={card}
+                onClick={() => navigate(card.route)}
+              />
+            ))}
+          </motion.div>
+        </main>
 
-        {/* Footer */}
-        <p className="mt-10 text-xs text-gray-400 text-center lg:text-right">
+        {/* Footer – bottom right */}
+        <footer className="pt-8 text-xs text-gray-400 text-center lg:text-right">
           {POWERED_BY}
-        </p>
+        </footer>
       </motion.div>
 
       {/* ── Right Panel — School Image ── */}
