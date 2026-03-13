@@ -52,16 +52,7 @@ const LoginPage = () => {
       <LeftPanel />
 
       {/* ── Right Panel — Login Form ── */}
-      <div className="flex-1 flex flex-col justify-center bg-white px-6 sm:px-10 md:px-16 py-10 lg:py-0 min-h-screen lg:min-h-0 lg:max-w-[50%]">
-        {/* Back to portal */}
-        <Link
-          to={ROUTES.HOME}
-          className="flex items-center gap-2 text-sm text-[#20A8D8] font-medium mb-8 self-start hover:underline"
-        >
-          <ArrowLeft size={16} />
-          Back to portal home
-        </Link>
-
+      <div className="flex-1 flex flex-col justify-center bg-white px-6 sm:px-10 md:px-16 py-8 lg:py-0 min-h-screen lg:min-h-0 lg:max-w-[50%]">
         <div className="w-full max-w-[420px] mx-auto">
           <LoginForm />
         </div>
@@ -109,7 +100,7 @@ const LeftPanel = () => {
       {/* Back to portal — top left */}
       <Link
         to={ROUTES.HOME}
-        className="absolute top-6 left-6 z-20 flex items-center gap-2 text-white/90 text-sm hover:text-white transition-colors"
+        className="absolute top-6 left-6 z-20 flex items-center gap-2 text-white/90 text-[14px] font-medium hover:text-white transition-colors"
       >
         <ArrowLeft size={16} />
         Back to portal home
@@ -124,12 +115,7 @@ const LeftPanel = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="rounded-xl p-5 backdrop-blur-md"
-            style={{
-              background: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.18)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
-            }}
+            className="rounded-xl p-5 backdrop-blur-[24px] bg-white/30 border-t border-white/30"
           >
             <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-2">
               {NEWS_SLIDES[current].label}
@@ -231,12 +217,15 @@ const LoginForm = () => {
         />
 
         <h1
-          className="text-2xl font-bold text-center"
+          className="text-2xl font-bold leading-snug text-left"
           style={{ color: '#171A1F' }}
         >
           {APP_NAME}
         </h1>
-        <p className="text-md mt-1 text-center" style={{ color: '#1F2329' }}>
+        <p
+          className="mt-1 text-[14px] font-medium leading-relaxed text-left"
+          style={{ color: '#1F2329' }}
+        >
           Welcome back! Please enter your details.
         </p>
       </div>
@@ -263,7 +252,7 @@ const LoginForm = () => {
             placeholder="Enter your email"
             {...register('email')}
             className={cn(
-              'w-full px-3.5 py-2.5 rounded-lg border text-sm outline-none transition-all',
+              'w-full px-3.5 py-2.5 rounded-lg border text-[14px] font-normal outline-none transition-all',
               'placeholder:text-gray-300',
               errors.email
                 ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
@@ -292,7 +281,7 @@ const LoginForm = () => {
               placeholder="••••••••"
               {...register('password')}
               className={cn(
-                'w-full px-3.5 py-2.5 rounded-lg border text-sm outline-none transition-all pr-10',
+                'w-full px-3.5 py-2.5 rounded-lg border text-[14px] font-normal outline-none transition-all pr-10',
                 'placeholder:text-gray-300',
                 errors.password
                   ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100'
@@ -315,24 +304,21 @@ const LoginForm = () => {
           )}
         </div>
 
-        {/* Remember me + Forgot password */}
-        <div className="flex items-center justify-between">
+        {/* Remember me */}
+        <div className="flex items-center">
           <label className="flex items-center gap-2 cursor-pointer select-none">
             <input
               type="checkbox"
               {...register('rememberMe')}
               className="w-4 h-4 rounded border-gray-300 accent-[#20A8D8] cursor-pointer"
             />
-            <span className="text-sm" style={{ color: '#1F2329' }}>
+            <span
+              className="text-[14px] font-medium"
+              style={{ color: '#1F2329' }}
+            >
               Remember me
             </span>
           </label>
-          <Link
-            to="#"
-            className="text-sm text-[#20A8D8] font-medium hover:underline"
-          >
-            Forgot password?
-          </Link>
         </div>
 
         {/* Submit */}
@@ -342,7 +328,7 @@ const LoginForm = () => {
           whileHover={{ scale: isSubmitting ? 1 : 1.01 }}
           whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
           className={cn(
-            'w-full py-3 rounded-lg text-white text-sm font-semibold transition-all',
+            'w-full py-3 rounded-lg text-white text-[14px] font-medium transition-all',
             'flex items-center justify-center gap-2',
             isSubmitting
               ? 'bg-[#20A8D8]/60 cursor-not-allowed'
