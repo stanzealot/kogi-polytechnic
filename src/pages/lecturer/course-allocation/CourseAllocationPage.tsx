@@ -433,7 +433,7 @@ interface AllocateOtherSchoolsDrawerProps {
 }
 
 const AllocateOtherSchoolsDrawer = ({ onSave }: AllocateOtherSchoolsDrawerProps) => {
-  const { allocateOtherSchoolsOpen, setAllocateOtherSchoolsOpen, setAllocateCoursesOpen } = useUIStore();
+  const { allocateOtherSchoolsOpen, setAllocateOtherSchoolsOpen } = useUIStore();
   const [search, setSearch] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selected, setSelected] = useState<AvailableCourse[]>([]);
@@ -475,8 +475,7 @@ const AllocateOtherSchoolsDrawer = ({ onSave }: AllocateOtherSchoolsDrawerProps)
   };
 
   const handleBack = () => {
-    setAllocateOtherSchoolsOpen(false);
-    setTimeout(() => setAllocateCoursesOpen(true), 150);
+    handleClose();
   };
 
   const handleSave = () => {
