@@ -53,7 +53,7 @@ export const DashboardLayout = memo(() => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => setAllocateCoursesOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-semibold whitespace-nowrap"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-[4px] text-white text-sm font-semibold whitespace-nowrap"
             style={{ backgroundColor: COLORS.primary }}
           >
             <Plus size={15} />
@@ -95,6 +95,7 @@ export const DashboardLayout = memo(() => {
         <style>{`
           @media (min-width: 768px) {
             .main-content-area { margin-left: ${SIDEBAR_WIDTH}px; }
+            .dashboard-header { left: ${SIDEBAR_WIDTH}px !important; }
           }
         `}</style>
         <div className="main-content-area flex flex-col min-h-screen">
@@ -109,7 +110,14 @@ export const DashboardLayout = memo(() => {
           >
             <ErrorBoundary FallbackComponent={ErrorAdapter}>
               <AnimatePresence mode="wait">
-                <motion.div key={location.pathname} variants={pageVariants} initial="initial" animate="animate" exit="exit">
+                <motion.div
+                  key={location.pathname}
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full max-w-[1100px] mx-auto"
+                >
                   <Outlet />
                 </motion.div>
               </AnimatePresence>

@@ -33,7 +33,7 @@ const DashboardPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1100px] ">
+    <div className="flex flex-col gap-6 w-full max-w-[1100px] mx-auto">
       {/* ── Profile + Bio Row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:items-stretch">
         <ProfileCard user={user} />

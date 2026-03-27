@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Upload } from 'lucide-react';
 import { COLORS } from '@/constants/theme.constants';
 import { SESSIONS } from '@/constants/mock.data';
@@ -117,7 +117,6 @@ const AcademicCalendarPage = () => {
   const data = CALENDAR_DATA[session] ?? CALENDAR_DATA['2025/2026'];
 
   const handleExport = () => {
-    // Build printable version and trigger print-to-PDF
     const content = printRef.current;
     if (!content) return;
     const win = window.open('', '_blank');
@@ -126,15 +125,17 @@ const AcademicCalendarPage = () => {
       <html><head><title>Academic Calendar ${session}</title>
       <style>
         body { font-family: 'Segoe UI', sans-serif; font-size: 13px; color: #111; padding: 32px; line-height: 1.6; }
-        h2 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        h2 { font-size: 14px; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
         p  { margin: 2px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-        td { padding: 8px 10px; vertical-align: top; border-bottom: 1px solid #eee; }
-        td:last-child { text-align: right; white-space: pre-line; min-width: 160px; }
-        .section-title { font-weight: 700; font-size: 14px; padding: 12px 10px 6px; border-bottom: none; }
-        .bold-row td { font-weight: 700; }
-        .footer { margin-top: 20px; font-size: 12px; color: #333; }
-        .signatory { margin-top: 24px; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; margin: 0; }
+        td { padding: 7px 10px; vertical-align: top; border-bottom: 1px solid #e5e7eb; font-size: 12px; }
+        td:first-child { width: 28px; color: #6b7280; white-space: nowrap; padding-right: 4px; }
+        td:last-child { text-align: right; white-space: pre-line; min-width: 150px; color: #6b7280; }
+        .section-header td { font-weight: 700; font-size: 13px; background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 8px 10px; color: #111; }
+        .bold-row td { font-weight: 700; color: #111; }
+        .indented-row td:nth-child(2) { padding-left: 20px; color: #9ca3af; font-style: italic; }
+        .footer-section { margin-top: 16px; border-top: 1px solid #e5e7eb; padding-top: 12px; }
+        .signatory { margin-top: 20px; }
         @media print { body { padding: 16px; } }
       </style></head><body>
       ${content.innerHTML}
@@ -146,48 +147,58 @@ const AcademicCalendarPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 max-w-[1100px]">
-      {/* ── Session picker + Export — top controls ── */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 flex-shrink-0">
-          {/* Session dropdown */}
-          <div className="relative" ref={sessionRef}>
-            <button
-              onClick={() => setSessionOpen(o => !o)}
-              onBlur={() => setTimeout(() => setSessionOpen(false), 150)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors bg-white"
-            >
-              Current Session <ChevronDown size={14} className={`text-gray-400 transition-transform ${sessionOpen ? 'rotate-180' : ''}`} />
-            </button>
+    <div className="flex flex-col gap-4 max-w-[1100px]">
+      {/* ── Controls row: right-aligned ── */}
+      <div className="flex items-center justify-end gap-3">
+        {/* Session dropdown */}
+        <div className="relative" ref={sessionRef}>
+          <button
+            onClick={() => setSessionOpen(o => !o)}
+            onBlur={() => setTimeout(() => setSessionOpen(false), 150)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors bg-white"
+          >
+            Current Session
+            <ChevronDown
+              size={14}
+              className={`text-gray-400 transition-transform ${sessionOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+          <AnimatePresence>
             {sessionOpen && (
               <motion.div
                 initial={{ opacity: 0, y: -6, scaleY: 0.95 }}
                 animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                exit={{ opacity: 0 }}
+                exit={{ opacity: 0, y: -6, scaleY: 0.95 }}
                 style={{ transformOrigin: 'top' }}
                 transition={{ duration: 0.14 }}
                 className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 z-20 min-w-[140px] overflow-hidden"
               >
                 {SESSIONS.map(s => (
-                  <button key={s} onClick={() => { setSession(s); setSessionOpen(false); }}
-                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${session === s ? 'text-[#20A8D8] font-semibold' : 'text-gray-700'}`}>
+                  <button
+                    key={s}
+                    onClick={() => { setSession(s); setSessionOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${
+                      session === s ? 'text-[#20A8D8] font-semibold' : 'text-gray-700'
+                    }`}
+                  >
                     {s}
                   </button>
                 ))}
               </motion.div>
             )}
-          </div>
-
-          {/* Export button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-            onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-semibold"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            Export <Upload size={14} />
-          </motion.button>
+          </AnimatePresence>
         </div>
+
+        {/* Export button */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={handleExport}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-semibold"
+          style={{ backgroundColor: COLORS.primary }}
+        >
+          Export <Upload size={14} />
+        </motion.button>
       </div>
 
       {/* ── Calendar content card ── */}
@@ -196,75 +207,121 @@ const AcademicCalendarPage = () => {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
-        className="bg-white rounded-xl border border-gray-100 shadow-sm"
+        className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
       >
-        {/* This div is used for export/print */}
-        <div ref={printRef} className="p-6 md:p-8">
-          {/* Document heading */}
-          <div className="mb-6">
-            <h2 className="font-bold text-sm md:text-base uppercase tracking-wide mb-1" style={{ color: COLORS.text.title }}>
+        {/* Printable content */}
+        <div ref={printRef}>
+          {/* Document heading block */}
+          <div className="px-6 md:px-8 pt-6 pb-4 border-b border-gray-100">
+            <h2
+              className="font-bold text-xs md:text-sm uppercase tracking-wide leading-snug mb-1"
+              style={{ color: COLORS.text.title }}
+            >
               {data.heading}
             </h2>
-            <p className="text-sm" style={{ color: COLORS.text.muted }}>{data.subtitle}</p>
-            <p className="text-sm font-semibold mt-1" style={{ color: COLORS.text.subtitle }}>
+            <p className="text-xs" style={{ color: COLORS.text.muted }}>{data.subtitle}</p>
+            <p className="text-xs font-semibold mt-0.5" style={{ color: COLORS.text.subtitle }}>
               {data.category}
             </p>
           </div>
 
-          {/* Sections */}
-          {data.sections.map((section, si) => (
-            <div key={si} className="mb-6">
-              {/* Section title (First/Second Semester) */}
-              <p className="text-sm font-bold mb-3" style={{ color: COLORS.text.title }}>{section.title}</p>
-
-              {/* Events table */}
-              <table className="w-full text-sm">
-                <tbody>
-                  {section.events.map((event, ei) => (
-                    <motion.tr
-                      key={ei}
-                      initial={{ opacity: 0, y: 3 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.15, delay: ei * 0.02 }}
-                      className="border-b border-gray-50 hover:bg-gray-50/40 transition-colors"
-                    >
-                      {/* Letter */}
-                      <td className="py-3 pr-2 align-top text-gray-500 whitespace-nowrap w-8 select-none"
-                        style={event.indented ? { paddingLeft: '16px' } : {}}>
-                        {event.letter}
+          {/* Sections rendered as a single table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <tbody>
+                {data.sections.map((section, si) => (
+                  <>
+                    {/* Section header row */}
+                    <tr key={`section-${si}`} className="bg-gray-50 border-t border-b border-gray-200">
+                      <td
+                        colSpan={3}
+                        className="px-6 md:px-8 py-2.5 text-xs font-bold uppercase tracking-wide"
+                        style={{ color: COLORS.text.title }}
+                      >
+                        {section.title}
                       </td>
-                      {/* Title */}
-                      <td className={`py-3 pr-6 align-top leading-relaxed ${event.bold ? 'font-bold' : ''} ${event.indented ? 'pl-4 text-gray-500 italic' : ''}`}
-                        style={{ color: event.bold ? COLORS.text.title : event.indented ? COLORS.text.muted : COLORS.text.subtitle, whiteSpace: 'pre-line' }}>
-                        {event.title}
-                      </td>
-                      {/* Date */}
-                      <td className={`py-3 text-right align-top whitespace-pre-line text-xs md:text-sm leading-relaxed ${event.bold ? 'font-bold' : 'text-gray-500'}`}>
-                        {event.dateRange}
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+                    </tr>
 
-              {/* End of semester note */}
-              {si < data.sections.length - 1 && (
-                <p className="text-sm italic text-gray-400 mt-3">(End of {section.title})</p>
-              )}
-            </div>
-          ))}
+                    {/* Event rows */}
+                    {section.events.map((event, ei) => (
+                      <tr
+                        key={`${si}-${ei}`}
+                        className={`border-b border-gray-100 hover:bg-gray-50/50 transition-colors ${
+                          event.bold ? 'font-semibold' : ''
+                        }`}
+                      >
+                        {/* Letter */}
+                        <td
+                          className="pl-6 md:pl-8 pr-2 py-2.5 align-top text-gray-400 whitespace-nowrap select-none text-xs"
+                          style={{
+                            width: 40,
+                            paddingLeft: event.indented ? '2.5rem' : undefined,
+                          }}
+                        >
+                          {event.letter}
+                        </td>
 
-          {/* Footer notes */}
-          <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-1">
-            {data.footer.map((line, i) => (
-              <p key={i} className="text-sm" style={{ color: COLORS.text.muted }}>{line}</p>
-            ))}
+                        {/* Title */}
+                        <td
+                          className={`px-2 py-2.5 align-top leading-relaxed text-xs md:text-sm ${
+                            event.indented ? 'pl-5 italic' : ''
+                          }`}
+                          style={{
+                            color: event.bold
+                              ? COLORS.text.title
+                              : event.indented
+                              ? COLORS.text.muted
+                              : COLORS.text.subtitle,
+                            whiteSpace: 'pre-line',
+                          }}
+                        >
+                          {event.title}
+                        </td>
+
+                        {/* Date range */}
+                        <td
+                          className={`pr-6 md:pr-8 pl-4 py-2.5 align-top text-right whitespace-pre-line text-xs leading-relaxed ${
+                            event.bold ? '' : 'text-gray-500'
+                          }`}
+                          style={{
+                            minWidth: 130,
+                            color: event.bold ? COLORS.text.title : undefined,
+                          }}
+                        >
+                          {event.dateRange}
+                        </td>
+                      </tr>
+                    ))}
+
+                    {/* End of semester note (between sections) */}
+                    {si < data.sections.length - 1 && (
+                      <tr key={`end-${si}`} className="border-b border-gray-100">
+                        <td colSpan={3} className="px-6 md:px-8 py-2 text-xs italic text-gray-400">
+                          (End of {section.title})
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          {/* Signatory */}
-          <div className="mt-6 pt-2">
-            <p className="text-sm font-semibold" style={{ color: COLORS.text.title }}>{data.signatory.name}</p>
-            <p className="text-sm" style={{ color: COLORS.text.muted }}>{data.signatory.title}</p>
+          {/* Footer notes + signatory */}
+          <div className="px-6 md:px-8 py-5 border-t border-gray-100 flex flex-col gap-1">
+            {data.footer.map((line, i) => (
+              <p key={i} className="text-xs" style={{ color: COLORS.text.muted }}>
+                {line}
+              </p>
+            ))}
+            <div className="mt-5">
+              <p className="text-xs font-semibold" style={{ color: COLORS.text.title }}>
+                {data.signatory.name}
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: COLORS.text.muted }}>
+                {data.signatory.title}
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>
