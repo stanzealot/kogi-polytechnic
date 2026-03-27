@@ -6,7 +6,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import type { FallbackProps } from 'react-error-boundary';
 
 import { Sidebar, MobileSidebar, SIDEBAR_WIDTH } from './Sidebar';
-import { Header, HEADER_HEIGHT } from './Header';
+import { Header, HEADER_HEIGHT_DESKTOP, HEADER_HEIGHT_MOBILE } from './Header';
 import ErrorFallback from '@/components/shared/ErrorFallback';
 import { UploadResultDrawer, DownloadTemplateDrawer } from '@/pages/lecturer/upload-result/UploadResultPage';
 import { useUIStore } from '@/store/ui.store';
@@ -93,9 +93,11 @@ export const DashboardLayout = memo(() => {
 
       <div className="flex-1 flex flex-col min-w-0">
         <style>{`
+          .dashboard-main-content { padding-top: ${HEADER_HEIGHT_MOBILE + 32}px; }
           @media (min-width: 768px) {
             .main-content-area { margin-left: ${SIDEBAR_WIDTH}px; }
             .dashboard-header { left: ${SIDEBAR_WIDTH}px !important; }
+            .dashboard-main-content { padding-top: ${HEADER_HEIGHT_DESKTOP + 32}px; }
           }
         `}</style>
         <div className="main-content-area flex flex-col min-h-screen">
@@ -105,8 +107,7 @@ export const DashboardLayout = memo(() => {
             actions={headerActions}
           />
           <main
-            className="flex-1 px-4 md:px-6 lg:px-8 py-6"
-            style={{ paddingTop: HEADER_HEIGHT + 32 }}
+            className="dashboard-main-content flex-1 px-4 md:px-6 lg:px-8 py-6"
           >
             <ErrorBoundary FallbackComponent={ErrorAdapter}>
               <AnimatePresence mode="wait">
